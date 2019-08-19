@@ -16,6 +16,9 @@ try:
     if pwd == '--help':
         print(f'{Fore.GREEN} use - sudo AutoSettingApkIcon.py [PATH ABSOLUTE] {Style.RESET_ALL}')
     else:
+        if not os.path.isabs(pwd):
+            print("Por favor, insira um caminho [PATH] absoluto.")
+            sys.exit()
         nome = pwd.split('/')
         os.system(f'ln -sf {pwd} /usr/bin/{nome[-1]}')
         icon = str(input(f"{Fore.CYAN} Digite o caminho do icone: {Style.RESET_ALL}"))
