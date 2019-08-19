@@ -1,19 +1,40 @@
 # -*- coding: utf-8 -*-
+
 import os
 import sys
-pwd = str(sys.argv[1])
-nome = str(sys.argv[2])
-if len(sys.argv) != 3:
-    print("use - AutoSettingApkIcon.py [PATH] [NAME]")
-    sys.exit()
-def simbolik():
-     os.system("ln -sf" + " " + pwd + " " + "/usr/bin/"+ nome)
-def IconDesk():
-    icon = input("Digite o caminho do ícone: ")
-    catego = input("Digite a categória do app: ")
-    os.system("echo   '[Desktop Entry]\nVersion = 1.0\nType = Application\nTerminal = false\nName =" + nome + "\nExec = /usr/bin/" + nome + "\nIcon =" + icon + "\nCategories =" + catego +   ";' " + "> /usr/share/applications/" + nome + ".desktop") 
-simbolik() 
-IconDesk()   
+from colorama import Fore, Style
+
+print(f"{Fore.LIGHTRED_EX} O programa so vai funcionar se vc tiver privilegios administrativos. "
+      f"Por favor, execute sudo"
+      f" AutoSettingApkI"
+      f"con.py [PATH ABSOLUTE] {Style.RESET_ALL}")
+print("Caso tenha executado com sudo, desconsidere esse mensagem")
+print('\n')
+
+try:
+    pwd = str(sys.argv[1])
+    if pwd == '--help':
+        print(f'{Fore.GREEN} use - sudo AutoSettingApkIcon.py [PATH ABSOLUTE] {Style.RESET_ALL}')
+    else:
+        nome = pwd.split('/')
+        os.system(f'ln -sf {pwd} /usr/bin/{nome[-1]}')
+        icon = str(input(f"{Fore.CYAN} Digite o caminho do icone: {Style.RESET_ALL}"))
+        terminal = str(input(f"{Fore.CYAN} Terminal: {Style.RESET_ALL}"))
+        os.chdir('/usr/share/applications/')
+        with open(f"{nome[-1]}.desktop", 'w') as arquivo:
+            arquivo.write(f"""
+[Desktop Entry]
+Version = 1.0
+Type = Application
+Terminal = {terminal}
+Name = {nome[-1]}
+Exec = /usr/bin/{nome[-1]}
+Icon = {icon}
+Categories = Application;
+            """)
+except IndexError:
+    print(f' {Fore.RED} use - sudo AutoSettingApkIcon.py [PATH ABSOLUTE] {Style.RESET_ALL}')
+
 
 
 
